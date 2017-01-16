@@ -4,11 +4,11 @@
     android:layout_width="match_parent">
 
     <ListPreference
-        android:title="Sort"
-        android:key="@string/pref_sorting_criteria_key"
-        android:defaultValue="@string/pref_sorting_criteria_default_value"
-        android:entries="@array/pref_sorting_criteria_values"
-        android:entryValues="@array/pref_sorting_criteria_keys"
+        android:title="sort movies by:"
+        android:key="@string/main_activity_pref_sorting_criteria_key"
+        android:defaultValue="@string/main_activity_pref_sorting_criteria_default_value"
+        android:entries="@array/set_menu_sorting_criteria_values"
+        android:entryValues="@array/set_menu_sorting_criteria_keys"
         />
 
 </PreferenceScreen>

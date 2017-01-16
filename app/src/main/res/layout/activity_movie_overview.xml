@@ -4,20 +4,17 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-
-    android:paddingTop="1dp"
     android:orientation="vertical"
-
     tools:context="base.movie.popmovie.MovieOverview">
 
     <TextView
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-        android:paddingBottom="20dp"
-        android:paddingTop="20dp"
-        android:paddingLeft="20dp"
+        android:paddingBottom="@dimen/margin"
+        android:paddingTop="@dimen/margin"
+        android:paddingLeft="@dimen/margin"
     android:id="@+id/title"
-    android:textSize="30sp"
+    android:textSize="@dimen/text_size"
     android:textColor="@android:color/white"
     android:background="@android:color/holo_blue_dark"/>
 
@@ -28,9 +25,9 @@
        android:layout_width="match_parent"
        android:layout_height="wrap_content"
        android:orientation="horizontal"
-       android:layout_marginTop="15dp"
-       android:layout_marginLeft="10dp"
-       android:layout_marginRight="10dp">
+       android:layout_marginTop="@dimen/margin_linear_lay_top"
+       android:layout_marginLeft="@dimen/margin_linear_lay_vert"
+       android:layout_marginRight="@dimen/margin_linear_lay_vert">
 
        <ImageView
            android:layout_width="wrap_content"
@@ -41,20 +38,20 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:layout_marginLeft="30dp">
+    android:layout_marginLeft="@dimen/margin_linear_lay_left">
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/rating"
-        android:textSize="20dp"
+        android:textSize="@dimen/text_size_small"
         />
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/release"
-        android:textSize="20dp"
+        android:textSize="@dimen/text_size_small"
         />
 
 </LinearLayout>
@@ -62,9 +59,9 @@
    </LinearLayout>
 
     <TextView
-        android:layout_marginTop="20dp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
+        android:layout_marginTop="@dimen/margin_linear_lay_top"
+        android:layout_marginLeft="@dimen/margin_linear_lay_vert"
+        android:layout_marginRight="@dimen/margin_linear_lay_vert"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/synopsis"/>

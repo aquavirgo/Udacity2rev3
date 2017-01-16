@@ -25,11 +25,10 @@ public class MainActivity extends AppCompatActivity implements RecViewAdapter.Li
     Context context;
     public  static RecyclerView.Adapter recyclerView_Adapter;
     RecyclerView.LayoutManager recyclerViewLayoutManager;
-   // static public RecViewAdapter recViewAdapter;
-    public static  Toast toast, mToast;
+    public static  Toast toast;
     static public ArrayList<base.movie.popmovie.Movie> moviesList;
     static public ArrayList<String> images;
-    static public String lastSortOrder;
+    static public String lastSelect;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,7 +39,6 @@ public class MainActivity extends AppCompatActivity implements RecViewAdapter.Li
 
         recyclerView = (RecyclerView) findViewById(R.id.rv_numbers);
 
-        //Change 2 to your choice because here 2 is the number of Grid layout Columns in each row.
         recyclerViewLayoutManager = new GridLayoutManager(this, 2);
 
 
@@ -53,9 +51,6 @@ public class MainActivity extends AppCompatActivity implements RecViewAdapter.Li
         updateMovies();
 
 
-      //  Log.d("MA",images.toString());
-      //  Log.d("TEST",images.get(0));
-
         recyclerView_Adapter = new RecViewAdapter(context,this,images);
 
         recyclerView.setAdapter(recyclerView_Adapter);
@@ -67,14 +62,14 @@ public class MainActivity extends AppCompatActivity implements RecViewAdapter.Li
     @Override
     public void onResume() {
         SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
-        String sortingCriteria = sharedPrefs.getString(getString(R.string.pref_sorting_criteria_key), getString(R.string.pref_sorting_criteria_default_value));
+        String selectBy = sharedPrefs.getString(getString(R.string.main_activity_pref_sorting_criteria_key), getString(R.string.main_activity_pref_sorting_criteria_default_value));
 
-        if(lastSortOrder!= null && !sortingCriteria.equals(lastSortOrder)){
+        if(lastSelect!= null && !selectBy.equals(lastSelect)){
             moviesList = new ArrayList<Movie>();
             images = new ArrayList<String>();
             updateMovies();
         }
-        lastSortOrder = sortingCriteria;
+        lastSelect = selectBy;
         super.onResume();
 
     }
@@ -84,47 +79,29 @@ public class MainActivity extends AppCompatActivity implements RecViewAdapter.Li
     public void updateMovies() {
         //String sortingCriteria = "popularity";
        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
-        String sortingCriteria = sharedPrefs.getString(getString(R.string.pref_sorting_criteria_key), getString(R.string.pref_sorting_criteria_default_value));
+        String selectBy = sharedPrefs.getString(getString(R.string.main_activity_pref_sorting_criteria_key), getString(R.string.main_activity_pref_sorting_criteria_default_value));
 
-        new DownJSON().execute(sortingCriteria, null);
+        new DownJSON(context).execute(selectBy, null);
     }
 
     @Override
     public void onListItemClick(int clickedItemIndex) {
-        if (mToast != null) {
-            mToast.cancel();
-        }
-
-        // COMPLETED (12) Show a Toast when an item is clicked, displaying that item number that was clicked
-        /*
-         * Create a Toast and store it in our Toast field.
-         * The Toast that shows up will have a message similar to the following:
-         *
-         *                     Item #42 clicked.
-         */
-        String toastMessage = "Item #" + clickedItemIndex + " clicked.";
-        mToast = Toast.makeText(this, toastMessage, Toast.LENGTH_LONG);
-
-        mToast.show();
-
         Intent intent = new Intent(MainActivity.this, MovieOverview.class);
-        intent.putExtra("movie_position",clickedItemIndex);
+        intent.putExtra("position",clickedItemIndex);
         startActivity(intent);
 
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
+
         getMenuInflater().inflate(R.menu.main, menu);
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
+
         int id = item.getItemId();
 
         if (id == R.id.action_settings) {

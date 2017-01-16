@@ -17,14 +17,14 @@ import java.security.AccessController;
 
 import static android.R.attr.data;
 import static android.os.Build.VERSION_CODES.M;
-import static base.movie.popmovie.DownJSON.IMAGE_NOT_FOUND;
-import static base.movie.popmovie.DownJSON.IMAGE_SIZE_185;
+import static base.movie.popmovie.DownJSON.DEF_IMAGE;
+import static base.movie.popmovie.DownJSON.DEF_IMAGE_SIZE;
 import static base.movie.popmovie.DownJSON.IMAGE_URL;
 
 public class MovieOverview extends AppCompatActivity {
 
     Movie movie;
-    String movie_poster_url;
+    String posterUrl;
     Context mContext;
 
 
@@ -33,30 +33,30 @@ public class MovieOverview extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_movie_overview);
 
-        int movie_position = getIntent().getIntExtra("movie_position",0);
-        movie= MainActivity.moviesList.get(movie_position);
+        int moviePosition = getIntent().getIntExtra("position",0);
+        movie= MainActivity.moviesList.get(moviePosition);
 
-       TextView movie_title = (TextView)findViewById(R.id.title);
-        movie_title.setText(movie.getOriginal_title());
+       TextView movieTitle = (TextView)findViewById(R.id.title);
+        movieTitle.setText(movie.getOriginalTitle());
 
         TextView rating = (TextView)findViewById(R.id.rating);
-        rating.setText(movie.getVote_average()+"/10");
+        rating.setText(movie.getVoteAverage()+"/10");
 
         TextView release = (TextView)findViewById(R.id.release);
-        release.setText(movie.getRelease_date());
+        release.setText(movie.getReleaseDate());
 
         TextView synopsis = (TextView)findViewById(R.id.synopsis);
         synopsis.setText(movie.getOverview());
 
        ImageView thumbnail = (ImageView) findViewById(R.id.thumbnail);
 
-        if (movie.getPoster_path() == DownJSON.IMAGE_NOT_FOUND) {
-            movie_poster_url = DownJSON.IMAGE_NOT_FOUND;
+        if (movie.getPosterPath() == DownJSON.DEF_IMAGE) {
+            posterUrl = DownJSON.DEF_IMAGE;
         }else {
-            movie_poster_url = DownJSON.IMAGE_URL + DownJSON.IMAGE_SIZE_185 + "/" + movie.getPoster_path();
+            posterUrl = DownJSON.IMAGE_URL + DownJSON.DEF_IMAGE_SIZE + "/" + movie.getPosterPath();
         }
 
-        Picasso.with(mContext).load(movie_poster_url).into(thumbnail);
+        Picasso.with(mContext).load(posterUrl).into(thumbnail);
         synopsis.setVisibility(View.VISIBLE);
 
     }
