@@ -27,7 +27,6 @@ import static android.os.Build.VERSION_CODES.N;
 public class DownJSON extends AsyncTask<String, Void, String> {
 
     static public String URL = "https://api.themoviedb.org/3/movie/";
-  //  static public String DB_KEY = "18de92b827b80c6ee02f4dd4c677f6d3";
     static public String IMAGE_URL = "http://image.tmdb.org/t/p/";
     static public String DEF_IMAGE_SIZE = "w185";
     static public String DEF_IMAGE = "http://www.classicposters.com/images/nopicture.gif";
