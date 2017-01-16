@@ -3,6 +3,7 @@ package base.movie.popmovie;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -39,8 +40,13 @@ public class MainActivity extends AppCompatActivity implements RecViewAdapter.Li
 
         recyclerView = (RecyclerView) findViewById(R.id.rv_numbers);
 
-        recyclerViewLayoutManager = new GridLayoutManager(this, 2);
 
+
+        if(getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT){
+            recyclerViewLayoutManager = new GridLayoutManager(this, 2);
+        }else{
+            recyclerViewLayoutManager = new GridLayoutManager(this, 4);
+        }
 
         recyclerView.setLayoutManager(recyclerViewLayoutManager);
 
