@@ -16,8 +16,9 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 
-import static android.R.attr.x;
-import static android.icu.lang.UCharacter.GraphemeClusterBreak.L;
+import base.movie.popmovie.adapter.RecViewAdapter;
+import base.movie.popmovie.asynctask.DownJSON;
+import base.movie.popmovie.asynctask.FavoritesAsyncTask;
 
 public class MainActivity extends AppCompatActivity implements RecViewAdapter.ListItemClickListener{
 
@@ -29,7 +30,6 @@ public class MainActivity extends AppCompatActivity implements RecViewAdapter.Li
     public static  Toast toast;
     static public ArrayList<base.movie.popmovie.Movie> moviesList;
     static public ArrayList<String> images;
-    static public String lastSelect;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,9 +39,6 @@ public class MainActivity extends AppCompatActivity implements RecViewAdapter.Li
         context = getApplicationContext();
 
         recyclerView = (RecyclerView) findViewById(R.id.rv_numbers);
-
-
-
         if(getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT){
             recyclerViewLayoutManager = new GridLayoutManager(this, 2);
         }else{
@@ -53,16 +50,14 @@ public class MainActivity extends AppCompatActivity implements RecViewAdapter.Li
         moviesList = new ArrayList<Movie>();
         images = new ArrayList<String>();
 
-
         updateMovies();
 
+       // Log.d("IMAGE_PATH",images.toString());
 
         recyclerView_Adapter = new RecViewAdapter(context,this,images);
 
         recyclerView.setAdapter(recyclerView_Adapter);
         toast = Toast.makeText(MainActivity.this,"", Toast.LENGTH_SHORT);
-
-
     }
 
     @Override
@@ -70,30 +65,32 @@ public class MainActivity extends AppCompatActivity implements RecViewAdapter.Li
         SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
         String selectBy = sharedPrefs.getString(getString(R.string.main_activity_pref_sorting_criteria_key), getString(R.string.main_activity_pref_sorting_criteria_default_value));
 
-        if(lastSelect!= null && !selectBy.equals(lastSelect)){
             moviesList = new ArrayList<Movie>();
             images = new ArrayList<String>();
             updateMovies();
-        }
-        lastSelect = selectBy;
+
         super.onResume();
 
     }
 
-
-
     public void updateMovies() {
-        //String sortingCriteria = "popularity";
-       SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
+        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
         String selectBy = sharedPrefs.getString(getString(R.string.main_activity_pref_sorting_criteria_key), getString(R.string.main_activity_pref_sorting_criteria_default_value));
+        if(selectBy.equals(getString(R.string.favorites))){
+             new FavoritesAsyncTask(context).execute(selectBy,null);
+        }else {
+            new DownJSON(context).execute(selectBy, null);
+        }
 
-        new DownJSON(context).execute(selectBy, null);
+        recyclerView_Adapter = new RecViewAdapter(context,this,images);
+        recyclerView.setAdapter(recyclerView_Adapter);
+
     }
 
     @Override
     public void onListItemClick(int clickedItemIndex) {
         Intent intent = new Intent(MainActivity.this, MovieOverview.class);
-        intent.putExtra("position",clickedItemIndex);
+        intent.putExtra(getString(R.string.position),clickedItemIndex);
         startActivity(intent);
 
     }

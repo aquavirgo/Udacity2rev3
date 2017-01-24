@@ -19,6 +19,12 @@ public class Movie {
     String backdropPath;
     String originalLanguage;
     String voteAverage;
+    String reviewAuthor;
+    String reviewContent;
+    String trailerTitle;
+    String trailerKey;
+
+
 
 
     public Movie() {
@@ -32,6 +38,12 @@ public class Movie {
         this.overview = parcel.readString();
         this.voteAverage = parcel.readString();
         this.releaseDate = parcel.readString();
+        //Movie Review
+        this.reviewAuthor = parcel.readString();
+        this.reviewContent = parcel.readString();
+        //Movie Traile
+        this.trailerTitle = parcel.readString();
+        this.trailerKey = parcel.readString();
     }
 
     public int getId() {
@@ -105,5 +117,18 @@ public class Movie {
         this.voteAverage = vote_average;
     }
 
+
+    public String getReviewAuthor(){return reviewAuthor;}
+    public void setReviewAuthor(String reviewAuthor) {this.reviewAuthor = reviewAuthor;}
+
+
+    public String getReviewContent(){return reviewContent;}
+    public void setReviewContent(String reviewContent) {this.reviewContent = reviewContent;}
+
+    public String getTrailerTitle(){return trailerTitle;}
+    public void setTrailerTitle(String trailerTitle) {this.trailerTitle = trailerTitle;}
+
+    public String getTrailerKey(){return trailerKey;}
+    public void setTrailerKey(String trailerKey) {this.trailerKey = trailerKey;}
 
 }

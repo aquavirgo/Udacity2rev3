@@ -19,6 +19,8 @@
         </activity>
         <activity android:name=".MovieOverview"></activity>
         <activity android:name=".SettingPref"></activity>
+
+        <provider android:name="base.movie.popmovie.data.MovieContentProvider" android:exported="false" android:authorities="base.movie.popmovie"/>
     </application>
 
 </manifest>

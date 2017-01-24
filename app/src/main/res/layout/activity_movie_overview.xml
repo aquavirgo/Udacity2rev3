@@ -39,7 +39,7 @@
            android:id="@+id/thumbnail"/>
 
 <LinearLayout
-    android:layout_width="wrap_content"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
     android:layout_marginLeft="@dimen/margin_linear_lay_left">
@@ -58,6 +58,13 @@
         android:textSize="@dimen/text_size_small"
         />
 
+    <ImageView
+        android:id="@+id/star"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/ic_star_border_black_24dp"
+        android:onClick="addToFavorites"/>
+
 </LinearLayout>
 
    </LinearLayout>
@@ -69,6 +76,59 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/synopsis"/>
+
+    <View
+        android:layout_marginTop="@dimen/margin_linear_lay_top"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/view_size"
+        android:background="@android:color/darker_gray"/>
+
+
+    <TextView
+        android:layout_marginTop="@dimen/margin_linear_lay_top"
+        android:layout_marginLeft="@dimen/margin_linear_lay_vert"
+        android:layout_marginRight="@dimen/margin_linear_lay_vert"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/text_size_medium"
+        android:text="Trailers:"/>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recycler_view_trailer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:scrollbars="vertical" />
+
+    <View
+        android:layout_marginTop="@dimen/margin_linear_lay_top"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/view_size"
+        android:background="@android:color/darker_gray"/>
+
+    <TextView
+        android:layout_marginTop="@dimen/margin_linear_lay_top"
+        android:layout_marginLeft="@dimen/margin_linear_lay_vert"
+        android:layout_marginRight="@dimen/margin_linear_lay_vert"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/text_size_medium"
+        android:text="Review:"/>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recycler_view_review"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:scrollbars="vertical" />
+
+    <TextView
+        android:layout_marginTop="@dimen/margin_linear_lay_top"
+        android:layout_marginLeft="@dimen/margin_linear_lay_vert"
+        android:layout_marginRight="@dimen/margin_linear_lay_vert"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/text_size_medium"
+        android:id="@+id/review_view"
+        />
 
 
 </LinearLayout>

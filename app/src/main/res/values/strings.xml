@@ -13,6 +13,13 @@
     <string name="vote_average">top_rated</string>
     <string name="most_popular">most popular</string>
     <string name="highest_rated">highest rated</string>
+    <string name="favorites">favorites</string>
+    <string name="position">position</string>
+    <string name="error_conection">Conection Error</string>
+    <string name="intenet_state">No Internet Conection</string>
+    <string name="movie_removed">Movie removed from favorites</string>
+    <string name="movie_added">Movie added to favorites</string>
+
 
 
 </resources>

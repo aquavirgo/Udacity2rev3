@@ -1,4 +1,4 @@
-package base.movie.popmovie;
+package base.movie.popmovie.adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
@@ -10,6 +10,9 @@ import android.widget.ImageView;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
+
+import base.movie.popmovie.MainActivity;
+import base.movie.popmovie.R;
 
 /**
  * Created by Jakub on 2017-01-14.
@@ -48,6 +51,7 @@ public class RecViewAdapter  extends RecyclerView.Adapter<RecViewAdapter.ViewHol
     }
 
     @Override public void onBindViewHolder(ViewHolder holder, int position) {
+        position =holder.getAdapterPosition();
         String item = items.get(position);
         holder.image.setImageBitmap(null);
         Picasso.with(holder.image.getContext()).load(MainActivity.images.get(position)).into(holder.image);

@@ -1,4 +1,4 @@
-package base.movie.popmovie;
+package base.movie.popmovie.asynctask;
 
 import android.content.Context;
 import android.net.Uri;
@@ -16,6 +16,9 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+
+import base.movie.popmovie.BuildConfig;
+import base.movie.popmovie.MainActivity;
 
 import static android.os.Build.VERSION_CODES.N;
 
@@ -78,6 +81,9 @@ public class DownJSON extends AsyncTask<String, Void, String> {
 
     public  static void loadInfo (String jsonString) {
         MainActivity.images.clear();
+        for(int i=0; i <= MainActivity.images.size()-1;i++){
+            MainActivity.images.remove(i);
+        }
         MainActivity.moviesList.clear();
 
         try {
@@ -118,6 +124,7 @@ public class DownJSON extends AsyncTask<String, Void, String> {
                   //  Log.d("MA",MainActivity.images.toString());
 
                     MainActivity.moviesList.add(movieItem);
+
 
                   MainActivity.recyclerView_Adapter.notifyDataSetChanged();
                 }

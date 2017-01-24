@@ -7,5 +7,7 @@
     <dimen name="margin_linear_lay_vert">10dp</dimen>
     <dimen name="margin_linear_lay_left">30dp</dimen>
     <dimen name="text_size">30dp</dimen>
+    <dimen name="text_size_medium">25dp</dimen>
     <dimen name="text_size_small">20dp</dimen>
+    <dimen name="view_size">1dp</dimen>
 </resources>
