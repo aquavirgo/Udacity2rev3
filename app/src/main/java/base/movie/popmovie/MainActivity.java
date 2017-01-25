@@ -35,6 +35,7 @@ public class MainActivity extends AppCompatActivity implements RecViewAdapter.Li
     private final String KEY_RECYCLER_STATE = "recycler_state";
     Parcelable mListState;
     Bundle  saved;
+    String lastSelect;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,20 +54,25 @@ public class MainActivity extends AppCompatActivity implements RecViewAdapter.Li
 
         recyclerView.setLayoutManager(recyclerViewLayoutManager);
 
-        moviesList = new ArrayList<Movie>();
-        images = new ArrayList<String>();
 
-       // updateMovies();
+        if (savedInstanceState == null) {
+            moviesList = new ArrayList<Movie>();
+            images = new ArrayList<String>();
+
+            updateMovies();
+        }
+
 
        // Log.d("IMAGE_PATH",images.toString());
 
-      // recyclerView_Adapter = new RecViewAdapter(context,this,images);
+       recyclerView_Adapter = new RecViewAdapter(context,this,images);
 
-//        recyclerView.setAdapter(recyclerView_Adapter);
+       recyclerView.setAdapter(recyclerView_Adapter);
+
         if (savedInstanceState != null) {
             mListState = savedInstanceState.getParcelable(KEY_RECYCLER_STATE);
             Log.v("onCreate ",mListState.toString());
-            recyclerView.getLayoutManager().onRestoreInstanceState(mListState);
+          //  recyclerView.getLayoutManager().onRestoreInstanceState(mListState);
         }
         toast = Toast.makeText(MainActivity.this,"", Toast.LENGTH_SHORT);
     }
@@ -83,18 +89,29 @@ public class MainActivity extends AppCompatActivity implements RecViewAdapter.Li
 
     @Override
     public void onResume() {
+
         super.onResume();
 
-        Log.v("Resume ", String.valueOf(mListState));
-     //   SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
-        //String selectBy = sharedPrefs.getString(getString(R.string.main_activity_pref_sorting_criteria_key), getString(R.string.main_activity_pref_sorting_criteria_default_value));
+       // Log.v("Resume ", String.valueOf(mListState));
 
-        moviesList = new ArrayList<Movie>();
-        images = new ArrayList<String>();
+        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
+        String selectBy = sharedPrefs.getString(getString(R.string.main_activity_pref_sorting_criteria_key), getString(R.string.main_activity_pref_sorting_criteria_default_value));
+
+        if(lastSelect!= null && !selectBy.equals(lastSelect)){
+            moviesList = new ArrayList<Movie>();
+            images = new ArrayList<String>();
+
+            updateMovies();
+        }
 
 
-        updateMovies();
+//        Log.d("SIZE", String.valueOf(images.size()));
+
+
+        lastSelect = selectBy;
         recyclerView.getLayoutManager().onRestoreInstanceState(mListState);
+
+      //  recyclerView.getLayoutManager().onRestoreInstanceState(mListState);
     }
 
     public void updateMovies() {
@@ -107,10 +124,10 @@ public class MainActivity extends AppCompatActivity implements RecViewAdapter.Li
             new DownJSON(context).execute(selectBy, null);
         }
 
-
-   recyclerView_Adapter = new RecViewAdapter(context,this,images);
-   recyclerView.setAdapter(recyclerView_Adapter);
-
+Log.d("GENER recView", String.valueOf(mListState));
+        recyclerView.getLayoutManager().onRestoreInstanceState(mListState);
+  recyclerView_Adapter = new RecViewAdapter(context,this,images);
+  recyclerView.setAdapter(recyclerView_Adapter);
 
     }
 
@@ -154,15 +171,4 @@ public class MainActivity extends AppCompatActivity implements RecViewAdapter.Li
         super.onSaveInstanceState(savedInstanceState);
     }
 
-/*
-    @Override
-    protected void onPause(){
-       mListState = new Bundle();
-        mListState = recyclerView.getLayoutManager().onSaveInstanceState();
-
-       saved.putParcelable(KEY_RECYCLER_STATE, mListState);
-        Log.v("PAUSE", String.valueOf(mListState));
-        super.onPause();
-    }
-*/
 }

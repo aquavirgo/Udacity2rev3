@@ -39,6 +39,7 @@ import base.movie.popmovie.adapter.TrailerAdapter;
 import base.movie.popmovie.asynctask.DownJSON;
 import base.movie.popmovie.data.MovieContract;
 
+import static base.movie.popmovie.MainActivity.images;
 import static base.movie.popmovie.MainActivity.moviesList;
 
 public class MovieOverview extends AppCompatActivity implements LoaderManager.LoaderCallbacks<String>,TrailerAdapter.ListItemClickListener{
@@ -59,6 +60,7 @@ public class MovieOverview extends AppCompatActivity implements LoaderManager.Lo
     private static TrailerAdapter mAdapterTrailer;
     ImageView stars;
     boolean isFavorite =false;
+    int moviePosition;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,7 +72,7 @@ public class MovieOverview extends AppCompatActivity implements LoaderManager.Lo
        //UI FOR MovieOverview
         textView = (TextView) findViewById(R.id.review_view);
 
-        int moviePosition = getIntent().getIntExtra(getString(R.string.position), 0);
+        moviePosition = getIntent().getIntExtra(getString(R.string.position), 0);
         movie = moviesList.get(moviePosition);
 
 
@@ -133,6 +135,12 @@ public class MovieOverview extends AppCompatActivity implements LoaderManager.Lo
             getContentResolver().delete(uri,MovieContract.MovieEntry.COLUMN_MOVIE_ID+ "=?",new String[]{Long.toString(movie.getId())});
 
             Toast.makeText(getBaseContext(), getString(R.string.movie_removed), Toast.LENGTH_LONG).show();
+
+            images.remove(moviePosition);
+            moviesList.remove(moviePosition);
+            MainActivity.recyclerView_Adapter.notifyItemRemoved(moviePosition);
+            MainActivity.recyclerView_Adapter.notifyItemRangeChanged(moviePosition,images.size());
+
 
         }else {
             isFavorite = true;
