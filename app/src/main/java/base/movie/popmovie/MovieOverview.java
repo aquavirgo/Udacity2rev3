@@ -61,6 +61,7 @@ public class MovieOverview extends AppCompatActivity implements LoaderManager.Lo
     ImageView stars;
     boolean isFavorite =false;
     int moviePosition;
+    boolean fromFavorites = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -95,6 +96,7 @@ public class MovieOverview extends AppCompatActivity implements LoaderManager.Lo
         //Check if data from Internet or Content Provider
         if(movie.getPosterPath().substring(0,7).equals("http://")){
             posterUrl = movie.getPosterPath();
+            fromFavorites=true;
         }else {
             if (movie.getPosterPath() == DownJSON.DEF_IMAGE) {
                 posterUrl = DownJSON.DEF_IMAGE;
@@ -136,11 +138,13 @@ public class MovieOverview extends AppCompatActivity implements LoaderManager.Lo
 
             Toast.makeText(getBaseContext(), getString(R.string.movie_removed), Toast.LENGTH_LONG).show();
 
-            images.remove(moviePosition);
-            moviesList.remove(moviePosition);
-            MainActivity.recyclerView_Adapter.notifyItemRemoved(moviePosition);
-            MainActivity.recyclerView_Adapter.notifyItemRangeChanged(moviePosition,images.size());
+            if(fromFavorites) {
+                images.remove(moviePosition);
+                moviesList.remove(moviePosition);
 
+                MainActivity.recyclerView_Adapter.notifyItemRemoved(moviePosition);
+                MainActivity.recyclerView_Adapter.notifyItemRangeChanged(moviePosition, images.size());
+            }
 
         }else {
             isFavorite = true;
