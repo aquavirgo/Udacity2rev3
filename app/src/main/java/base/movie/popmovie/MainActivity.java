@@ -16,6 +16,7 @@ import android.view.MenuItem;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import base.movie.popmovie.adapter.RecViewAdapter;
 import base.movie.popmovie.asynctask.DownJSON;
@@ -33,6 +34,7 @@ public class MainActivity extends AppCompatActivity implements RecViewAdapter.Li
     static public ArrayList<String> images;
     private final String KEY_RECYCLER_STATE = "recycler_state";
     Parcelable mListState;
+    Bundle  saved;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,39 +56,45 @@ public class MainActivity extends AppCompatActivity implements RecViewAdapter.Li
         moviesList = new ArrayList<Movie>();
         images = new ArrayList<String>();
 
-        updateMovies();
+       // updateMovies();
 
        // Log.d("IMAGE_PATH",images.toString());
 
-       recyclerView_Adapter = new RecViewAdapter(context,this,images);
+      // recyclerView_Adapter = new RecViewAdapter(context,this,images);
 
-        recyclerView.setAdapter(recyclerView_Adapter);
+//        recyclerView.setAdapter(recyclerView_Adapter);
+        if (savedInstanceState != null) {
+            mListState = savedInstanceState.getParcelable(KEY_RECYCLER_STATE);
+            Log.v("onCreate ",mListState.toString());
+            recyclerView.getLayoutManager().onRestoreInstanceState(mListState);
+        }
         toast = Toast.makeText(MainActivity.this,"", Toast.LENGTH_SHORT);
     }
 
-    protected void onRestoreInstanceState(Bundle state) {
-        super.onRestoreInstanceState(state);
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
 
         // Retrieve list state and list/item positions
-            mListState = state.getParcelable(KEY_RECYCLER_STATE);
-
+            mListState = savedInstanceState.getParcelable(KEY_RECYCLER_STATE);
+        Log.v("My_Tag", "onRestoreInstanceState called");
+        Log.v("My_Tag", "mListState in onRestoreInstanceState is " + mListState);
     }
 
     @Override
     public void onResume() {
-
         super.onResume();
 
-
+        Log.v("Resume ", String.valueOf(mListState));
      //   SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
         //String selectBy = sharedPrefs.getString(getString(R.string.main_activity_pref_sorting_criteria_key), getString(R.string.main_activity_pref_sorting_criteria_default_value));
 
         moviesList = new ArrayList<Movie>();
         images = new ArrayList<String>();
 
-        updateMovies();
 
-        recyclerViewLayoutManager.onRestoreInstanceState(mListState);
+        updateMovies();
+        recyclerView.getLayoutManager().onRestoreInstanceState(mListState);
     }
 
     public void updateMovies() {
@@ -101,7 +109,7 @@ public class MainActivity extends AppCompatActivity implements RecViewAdapter.Li
 
 
    recyclerView_Adapter = new RecViewAdapter(context,this,images);
-       recyclerView.setAdapter(recyclerView_Adapter);
+   recyclerView.setAdapter(recyclerView_Adapter);
 
 
     }
@@ -134,15 +142,27 @@ public class MainActivity extends AppCompatActivity implements RecViewAdapter.Li
         return super.onOptionsItemSelected(item);
     }
 
-    protected void onSaveInstanceState(Bundle state) {
-        super.onSaveInstanceState(state);
-        // Save list state
-       mListState = recyclerViewLayoutManager.onSaveInstanceState();
-        state.putParcelable(KEY_RECYCLER_STATE, mListState);
+    @Override
+    protected void onSaveInstanceState(Bundle savedInstanceState) {
 
+        // Save list state
+        mListState = new Bundle();
+        mListState = recyclerView.getLayoutManager().onSaveInstanceState();
+        savedInstanceState.putParcelable(KEY_RECYCLER_STATE, mListState);
+        Log.v("onSave ",mListState.toString());
+
+        super.onSaveInstanceState(savedInstanceState);
     }
 
+/*
+    @Override
+    protected void onPause(){
+       mListState = new Bundle();
+        mListState = recyclerView.getLayoutManager().onSaveInstanceState();
 
-
-
+       saved.putParcelable(KEY_RECYCLER_STATE, mListState);
+        Log.v("PAUSE", String.valueOf(mListState));
+        super.onPause();
+    }
+*/
 }
